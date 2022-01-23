@@ -10,6 +10,7 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css"
         />
         <link rel="stylesheet" href="./css/style.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.10.2/Sortable.min.js"></script>
     </head>
     <body>
         <header>
@@ -17,19 +18,36 @@
         </header>
 
         <div class="todo-container">
-            <ul class="todo-list">
+            <div class="todo-list">
                 <div class="todo">
-                    <li class="todo-item">Make content for page</li>
-                    <button class="check"><i class="fas fa-check"></i></button>
-                    <button class="trash"><i class="fas fa-trash"></i></button>
+                    <p class="todo-item">
+                        <span><i class="fas fa-bars"></i></span> Make content
+                        for page
+                    </p>
+                    <div class="butons">
+                        <button class="check">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="trash">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="todo">
-                    <li class="todo-item">Pay credit card's bill</li>
-
-                    <button class="check"><i class="fas fa-check"></i></button>
-                    <button class="trash"><i class="fas fa-trash"></i></button>
+                    <p class="todo-item">
+                        <span><i class="fas fa-bars"></i></span> Pay credit
+                        card's bill
+                    </p>
+                    <div class="buttons">
+                        <button class="check">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button class="trash">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
                 </div>
-            </ul>
+            </div>
         </div>
 
         <form>
@@ -39,6 +57,12 @@
             </button>
         </form>
     </body>
-
     <script src="./script/app.js"></script>
+    <script>
+        // const list = document.querySelector(".todo-list");
+        new Sortable(list, {
+            animation: 350,
+            ghostClass: "draggable-over",
+        });
+    </script>
 </html>
