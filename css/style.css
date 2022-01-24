@@ -58,7 +58,7 @@ form button:focus {
 }
 
 form button {
-    color: #6984b5;
+    color: #61408ed4;
     cursor: pointer;
     background: white;
     transition: all 0.3s ease;
@@ -66,7 +66,7 @@ form button {
 
 form button:hover {
     color: white;
-    background: #6984b5;
+    background: #61408ed4;
 }
 
 .todo-container {

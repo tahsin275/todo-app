@@ -3,16 +3,63 @@ const userInput = document.querySelector(".todo-input");
 const inputForm = document.querySelector("form");
 const list = document.querySelector(".todo-list");
 
-// event listeners
-const eventListeners = () => {
-    // task submit event
-    inputForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const input = userInput.value;
-        const div = document.createElement("div");
-        div.innerHTML = `
+// local storage functionality
+const checkStorage = () => {
+    let todos;
+    if (localStorage.getItem("todos")) {
+        const todoItems = localStorage.getItem("todos");
+        todos = JSON.parse(todoItems);
+    } else {
+        todos = [];
+    }
+    return todos;
+};
+
+// save todo element to local storage
+const saveTodos = (todo) => {
+    let todos = checkStorage();
+    todos.push(todo);
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+// check for existing todo elements
+// const checkTodos = () => {
+//     const todos = checkStorage();
+//     const todoEl = list.children;
+//     if (todoEl.length > 0) {
+//         for (let i = 0; i < todoEl.length; i++) {
+//             const todo = todoEl[i].children[0].innerText;
+//             const index = todos.indexOf(todo);
+//             if (index == -1) {
+//                 saveTodos(todo);
+//             }
+//         }
+//     }
+// };
+
+// get todo elements from local storage
+const getTodos = () => {
+    let todos = checkStorage();
+    if (todos.length > 0) {
+        todos.forEach((todo) => renderTodo(todo));
+    }
+};
+
+// delete todo elements from local storage
+const removeTodo = (todo) => {
+    let todos = checkStorage();
+    const todoInput = todo.children[0].innerText.trim();
+    const index = todos.indexOf(todoInput);
+    todos.splice(index, 1);
+    localStorage.setItem("todos", JSON.stringify(todos));
+};
+
+// render todo elements into the list
+const renderTodo = (todo) => {
+    const div = document.createElement("div");
+    div.innerHTML = `
             <p class="todo-item">
-                <span><i class="fas fa-bars"></i></span> ${input}
+                <span><i class="fas fa-bars"></i></span> ${todo}
             </p>
             <div class="butons">
                 <button class="check">
@@ -23,9 +70,23 @@ const eventListeners = () => {
                 </button>
             </div>
             `;
-        div.className = "todo";
-        list.append(div);
-        userInput.value = "";
+    div.className = "todo";
+    list.append(div);
+};
+
+// event listeners
+const eventListeners = () => {
+    // task submit event
+    inputForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const input = userInput.value;
+        if (input) {
+            renderTodo(input);
+            saveTodos(input);
+            userInput.value = "";
+        } else {
+            alert("You can't add empty element into the list!");
+        }
     });
 
     list.addEventListener("click", (e) => {
@@ -39,9 +100,9 @@ const eventListeners = () => {
         } else if (clickedItem.className == "trash") {
             const div = clickedItem.parentNode.parentNode;
             div.classList.add("drop-effect");
+            removeTodo(div);
             div.addEventListener("transitionend", () => {
                 div.remove();
-                console.log("event occured");
             });
         }
     });
@@ -96,6 +157,7 @@ const updateState = () => {
     eventListeners();
     getDate();
     getWeather();
+    getTodos();
 };
 
 updateState();
