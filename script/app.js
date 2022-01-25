@@ -136,7 +136,7 @@ const getDate = () => {
     const monthName = monthNames[month];
     const day = date.getUTCDate();
     const dateEl = document.querySelector("#date");
-    date.innerText = `${day} ${monthName}`;
+    dateEl.innerText = `${day} ${monthName}`;
 };
 
 // get weather
